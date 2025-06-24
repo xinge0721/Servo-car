@@ -1,0 +1,39 @@
+# Keil µVision specific files
+Objects/
+Listings/
+*.uvguix.*
+*.uvopt
+*.uvproj.bak
+*.uvopt.bak
+*.uvgui.*
+*.htm
+*.sct
+
+# J-Link
+JLinkLog.txt
+
+# General compiler outputs
+*.bak
+*.ddk
+*.edk
+*.lst
+*.lnp
+*.mpf
+*.mpj
+*.obj
+*.omf
+*.plg
+*.rpt
+*.tmp
+*.__i
+*.crf
+*.o
+*.d
+*.axf
+*.tra
+*.dep
+*.iex
+*.map
+
+# Debugger files
+DebugConfig/ 
