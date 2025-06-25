@@ -14,13 +14,14 @@
 #include "key.h"
 #include "pid.h"
 #include "Serial.h"
+#include "UART2.h"
+
 #include "PWM.h"
 #include "sys.h"
 #include "APP.h"
 #include "mithon.h"
 #include "REG.h"
 #include "wit_c_sdk.h"
-#include "UART2.h"
 #include "stm32f10x.h"                  // Device header
 #include "mithon.h"
 #include "Servo.h"
@@ -89,25 +90,7 @@ int main(void)
 			OLED_ShowSignedNum(2, 3, now_Lspeed, 5);//左编码器速度
 			OLED_ShowSignedNum(3, 5, ADD, 4); //转向环系数
 			OLED_ShowSignedNum(4, 3,zangle , 3); //转向环系数
-		    right(3000);
-    left(3000);
-//			delay_us(1);
-//		//上位机发送
-//		DataScope_Get_Channel_Data(50, 1 );//目标数据
-//		DataScope_Get_Channel_Data(now_Lspeed, 2 );//当前左轮数据
-//		DataScope_Get_Channel_Data(now_Rspeed, 3 );//当前右轮数据
-//		DataScope_Get_Channel_Data(now_Lposition, 4 );//当前右轮数据
-//		DataScope_Get_Channel_Data(now_Rposition, 5);//当前右轮数据
-//		DataScope_Get_Channel_Data(1560, 6 );//当前右轮数据
-//        DataScope_Get_Channel_Data(ADD, 7 );//当前差速数据
-//        DataScope_Get_Channel_Data(zangle, 8 );//当前陀螺仪z轴数据
-//        
-//		Send_Count = DataScope_Data_Generate(10);
-//		for( j = 0 ; j < Send_Count; j++) 
-//		{
-//			Serial_SendByte1( DataScope_OutPut_Buffer[j]); //发送到上位机
-//		}
-//     delay_ms(50);
+
 	}
 }
 
@@ -126,8 +109,8 @@ void TIM4_IRQHandler(void)//1ms
 			now_Lspeed =  -Encoder_Get_Left();//电机 
 			wete_angle();//陀螺仪读取
 			Time_flag=0;
-		
-
+			zhixian(1,0);
+			
 
 
 				
@@ -167,7 +150,7 @@ void wete_angle(void)
 			   if(s_cDataUpdate & ANGLE_UPDATE)
 			   {
                 zangle=(fAngle[2]);//陀螺仪z轴角度
-			   	printf("angle:%.3f %.3f %.3f\r\n", fAngle[0], fAngle[1], fAngle[2]);//x,y,z
+			   	//printf("angle:%.3f %.3f %.3f\r\n", fAngle[0], fAngle[1], fAngle[2]);//x,y,z 暂时注释掉陀螺仪数据输出
 			   	s_cDataUpdate &= ~ANGLE_UPDATE;
 					 
 			   }

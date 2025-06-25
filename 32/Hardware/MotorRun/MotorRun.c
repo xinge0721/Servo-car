@@ -1,6 +1,7 @@
 #include "stm32f10x.h"                  
 #include "Motor.h"
 #include "PWM.h"
+#include "Servo.h"
 #include "oled.h"
 //小车前进函数
 void run(uint16_t LCompare,uint16_t RCompare)
@@ -59,17 +60,5 @@ void right(int32_t speed)
    
 }
 
-//左转（仅控制舵机）
-// 参数：角度
-void turn_left(int32_t angle)
-{
-	Servo_SetPulse(SERVO_MIDDLE_PULSE + angle);
-}
-//右转（仅控制舵机）
-// 参数：角度
-void turn_right(int32_t angle)
-{
-	Servo_SetPulse(SERVO_MIDDLE_PULSE - angle);
-}
 
 

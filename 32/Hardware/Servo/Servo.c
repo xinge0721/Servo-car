@@ -32,6 +32,21 @@ void Servo_SetPulse(int Pulse_us)
     servo_pulse_us = Pulse_us;
 }
 
+// 使用角度设置舵机位置 (角度范围: 0~180度)
+void Servo_SetAngle_Int16(int16_t angle)
+{
+    // 限制角度范围
+    if (angle < 0) angle = 0;
+    if (angle > 180) angle = 180;
+    
+    // 角度转换为脉冲宽度
+    // 脉冲宽度(μs) = 500 + 角度 × 11.11
+    int pulse = SERVO_MIN_PULSE + (int)((float)angle * 11.11f);
+    
+    // 设置脉冲宽度
+    Servo_SetPulse(pulse);
+}
+
 void Servo_Init(void)
 {
     // 1. 初始化舵机控制IO口

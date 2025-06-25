@@ -7,6 +7,9 @@
 #include "mithon.h"
 #include "led.h"
 #include "MotorRun.h"
+#include "Serial.h"
+#include "UART2.h"
+#include "Servo.h"
 int Lpwm=0,Rpwm=0;
 int16_t ADD=0;
 int16_t now_Lspeed=0,now_Rspeed=0;
@@ -124,12 +127,15 @@ void zhixian(float i, float speed)
     
     // 计算当前角度与目标角度的差值，计算转向修正值
     ADD = turn_pid(zangle, i);   // 当前角度与目标角度
-    
+    // 输出PID相关数据供调试
+    printf("PID数据: ADD=%d, ", ADD);
+		
+		Servo_SetAngle_Int16(13+ADD);
     // 左轮速度 = 基准速度 - 修正值
     Lpwm = LVelocity_FeedbackControl(speed - ADD, now_Lspeed);
     // 右轮速度 = 基准速度 + 修正值
     Rpwm = RVelocity_FeedbackControl(speed + ADD, now_Rspeed);
-    
+    printf("Lpwm=%d, Rpwm=%d\r\n", Lpwm, Rpwm);
     // 输出PWM到电机驱动
     right(Rpwm);
     left(Lpwm);

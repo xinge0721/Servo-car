@@ -258,27 +258,24 @@ void uart4_init_DMA(u32 bound)
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_Init( UART4, &USART_InitStructure);
 	
-	
-	
  	NVIC_InitTypeDef NVIC_InitStructure;
 	
-		
-		NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn; //使能串口4中断
-		NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2; //先占优先级2级
-		NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1; //从优先级2级
-		NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //使能外部中断通道
-		NVIC_Init(&NVIC_InitStructure); //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
-	 
-		USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);//开启中断   
-		USART_Cmd(UART4, ENABLE);                    //使能串口2
+	NVIC_InitStructure.NVIC_IRQChannel = UART4_IRQn; //使能串口4中断
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2; //先占优先级2级
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1; //从优先级2级
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //使能外部中断通道
+	NVIC_Init(&NVIC_InitStructure); //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器
 	
-		USART_ITConfig(UART4, USART_IT_IDLE, ENABLE); //开启空闲中断
-		USART_DMACmd(UART4, USART_DMAReq_Rx, ENABLE); //使能串口2的DMA接收
-		USART_DMACmd(UART4, USART_DMAReq_Tx, ENABLE); //使能串口2的DMA发送
-		USART_Cmd(UART4, ENABLE); //使能串口 
-		
-		UART2_DMA_RX_Init(); //UART3_RX的EDMA功能初始化
-		UART2_DMA_TX_Init(); //UART3_TX的EDMA功能初始化
+	USART_ITConfig(UART4, USART_IT_RXNE, ENABLE);//开启中断   
+	USART_Cmd(UART4, ENABLE);                    //使能串口2
+
+	USART_ITConfig(UART4, USART_IT_IDLE, ENABLE); //开启空闲中断
+	USART_DMACmd(UART4, USART_DMAReq_Rx, ENABLE); //使能串口2的DMA接收
+	USART_DMACmd(UART4, USART_DMAReq_Tx, ENABLE); //使能串口2的DMA发送
+	USART_Cmd(UART4, ENABLE); //使能串口 
+	
+	UART2_DMA_RX_Init(); //UART3_RX的EDMA功能初始化
+	UART2_DMA_TX_Init(); //UART3_TX的EDMA功能初始化
 
 		
 }
