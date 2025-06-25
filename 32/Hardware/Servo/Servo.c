@@ -19,6 +19,9 @@
 // 全局变量，用于在中断中确定脉冲宽度(单位: us)
 static int servo_pulse_us = 1500; 
 
+// 中间位置脉冲宽度
+#define SERVO_MIDDLE_PULSE 650
+
 // 直接设置脉冲宽度(us)
 // 舵机脉宽范围: 500us ~ 2500us 对应 0~180度
 void Servo_SetPulse(int Pulse_us)
@@ -40,7 +43,7 @@ void Servo_Init(void)
     GPIO_Init(SERVO_PORT, &GPIO_InitStructure);
 
     // 2. 默认设置舵机脉冲为中间位置 (1500us)
-    Servo_SetPulse(800);
+    Servo_SetPulse(SERVO_MIDDLE_PULSE);
     
     // 注意: SysTick 的初始化通常在其他地方完成 (例如 delay_init)，
     // 这里不再重复初始化。只需确保 SysTick 中断已开启且周期为1ms。
@@ -51,7 +54,7 @@ void Servo_Init(void)
 void Servo_Tick_Handler(void)
 {
     static int tick_counter = 0;
-    for(int i=0;i<SERVO_MAX_PULSE;i++)
+    for(int i=0;i<2500;i++)
     {
         if(i <= servo_pulse_us)
         {

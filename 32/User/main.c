@@ -56,7 +56,7 @@ int main(void)
 	Stm32_Clock_Init(9);            //系统时钟设置
 	delay_init(72);                 //延时初始化
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); //设置中断优先级分组为组2：2位抢占优先级，2位响应优先级
-//	uart4_init_DMA(115200);		                      //串口4初始化，陀螺仪
+	uart4_init_DMA(115200);		                      //串口4初始化，陀螺仪
 	Usart1Init(115200);
 	OLED_Init();				//OLED初始化   PD6/PD7
 	Key_Init();					//按键初始化   PE4  
@@ -89,7 +89,8 @@ int main(void)
 			OLED_ShowSignedNum(2, 3, now_Lspeed, 5);//左编码器速度
 			OLED_ShowSignedNum(3, 5, ADD, 4); //转向环系数
 			OLED_ShowSignedNum(4, 3,zangle , 3); //转向环系数
-			Servo_Tick_Handler();
+		    right(3000);
+    left(3000);
 //			delay_us(1);
 //		//上位机发送
 //		DataScope_Get_Channel_Data(50, 1 );//目标数据
@@ -110,8 +111,7 @@ int main(void)
 	}
 }
 
-uint8_t timeflag;
-uint8_t tt;
+uint8_t timeflag;uint8_t tt;
 uint8_t uu;
 int Lpwm1;
 int Rpwm2;
@@ -121,18 +121,13 @@ void TIM4_IRQHandler(void)//1ms
 	if (TIM_GetITStatus(TIM4, TIM_IT_Update) == SET)//1ms
 	{
 
-		// 此处为PID计算，每10ms计算一次
-		if(Time_flag==10)
-		{
+			Servo_Tick_Handler();
 			now_Rspeed = Encoder_Get_Right();//电机
 			now_Lspeed =  -Encoder_Get_Left();//电机 
 			wete_angle();//陀螺仪读取
 			Time_flag=0;
-		}
-		else
-		{
-			Time_flag++;
-		}
+		
+
 
 
 				
